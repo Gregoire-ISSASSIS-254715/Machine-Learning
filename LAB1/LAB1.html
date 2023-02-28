@@ -1,0 +1,257 @@
+<html>
+<head>
+<title>main.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #808080;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #cc7832;}
+.s3 { color: #6a8759;}
+.s4 { color: #6897bb;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+main.py</font>
+</center></td></tr></table>
+<pre><span class="s0"># SEND TO 183892@vutbr.cz</span>
+
+<span class="s0">##############################################</span>
+<span class="s0">#################### LAB1 ####################</span>
+<span class="s0">##############################################</span>
+
+<span class="s0"># Import libraries</span>
+<span class="s2">import </span><span class="s1">numpy</span>
+<span class="s2">import </span><span class="s1">matplotlib</span>
+<span class="s2">from </span><span class="s1">matplotlib </span><span class="s2">import </span><span class="s1">pyplot</span>
+<span class="s2">import </span><span class="s1">pandas </span><span class="s2">as </span><span class="s1">pd</span>
+
+<span class="s0">##############################################</span>
+<span class="s0"># Exercise 1.4.1</span>
+<span class="s1">print(</span><span class="s3">&quot;Exercise 1.4.1 :&quot;</span><span class="s1">)</span>
+
+<span class="s0"># Firstly, we print &quot;x&quot; from 1 to 5</span>
+<span class="s2">for </span><span class="s1">y </span><span class="s2">in </span><span class="s1">range(</span><span class="s4">6</span><span class="s1">):</span>
+    <span class="s1">print(y * </span><span class="s3">&quot;x&quot;</span><span class="s1">)</span>
+
+<span class="s0"># Then, we print &quot;x&quot; from 4 to 1</span>
+<span class="s2">while </span><span class="s1">y &gt; </span><span class="s4">0</span><span class="s1">:</span>
+    <span class="s1">y -= </span><span class="s4">1</span>
+    <span class="s1">print(y * </span><span class="s3">&quot;x&quot;</span><span class="s1">)</span>
+<span class="s0">##############################################</span>
+
+
+<span class="s0">##############################################</span>
+<span class="s0"># Exercise 1.4.2</span>
+<span class="s1">print(</span><span class="s3">&quot;</span><span class="s2">\n</span><span class="s3">Exercise 1.4.2 :&quot;</span><span class="s1">)</span>
+
+<span class="s0"># String initialization</span>
+<span class="s1">input_str = </span><span class="s3">&quot;n45as29@#8ss6&quot;</span>
+<span class="s1">sum = </span><span class="s4">0</span>
+
+<span class="s0"># Go through all element of the string, if they are digits, add them in the sum of numbers</span>
+<span class="s2">for </span><span class="s1">x </span><span class="s2">in </span><span class="s1">input_str:</span>
+    <span class="s2">if </span><span class="s1">x.isdigit():</span>
+        <span class="s1">sum += int(x)</span>
+
+<span class="s0"># Finally, we display the results</span>
+<span class="s1">print(</span><span class="s3">&quot;The sum of all the numbers in this string is : &quot;</span><span class="s2">, </span><span class="s1">sum)</span>
+<span class="s0">##############################################</span>
+
+
+<span class="s0">##############################################</span>
+<span class="s0"># Exercise 1.4.3</span>
+<span class="s1">print(</span><span class="s3">&quot;</span><span class="s2">\n</span><span class="s3">Exercise 1.4.3 :&quot;</span><span class="s1">)</span>
+
+<span class="s0"># Firstly, we let the user enter a number</span>
+<span class="s1">n = int(input(</span><span class="s3">&quot;Please, enter a number :&quot;</span><span class="s1">))</span>
+<span class="s1">originalNumber = n</span>
+
+<span class="s0"># Intermediary List and final String initialization</span>
+<span class="s1">reversedBinaryString = []</span>
+<span class="s1">binaryString = </span><span class="s3">&quot;&quot;</span>
+
+<span class="s0"># Then, we convert the input in binary</span>
+<span class="s2">while </span><span class="s1">n != </span><span class="s4">0</span><span class="s1">:</span>
+    <span class="s1">reversedBinaryString.append(n % </span><span class="s4">2</span><span class="s1">)</span>
+    <span class="s1">n = n // </span><span class="s4">2</span>
+
+<span class="s0"># We reverse the intermediary List into the final String to get the values in the good order</span>
+<span class="s2">for </span><span class="s1">i </span><span class="s2">in </span><span class="s1">reversed(reversedBinaryString):</span>
+    <span class="s1">binaryString += str(i)</span>
+
+<span class="s0"># Finally, we display the results</span>
+<span class="s1">print(</span><span class="s3">&quot;The binary string of&quot;</span><span class="s2">, </span><span class="s1">originalNumber</span><span class="s2">, </span><span class="s3">&quot; is :&quot;</span><span class="s2">, </span><span class="s1">binaryString)</span>
+<span class="s0">##############################################</span>
+
+
+<span class="s0">##############################################</span>
+<span class="s0"># Exercise 1.5-1</span>
+<span class="s1">print(</span><span class="s3">&quot;</span><span class="s2">\n</span><span class="s3">Exercise 1.5-1 :&quot;</span><span class="s1">)</span>
+
+
+<span class="s2">def </span><span class="s1">fibonaci(upper_threshold: int) -&gt; list:</span>
+    <span class="s0"># Firstly, we implement a list with mandatory values</span>
+    <span class="s1">list = [</span><span class="s4">0</span><span class="s2">, </span><span class="s4">1</span><span class="s1">]</span>
+
+    <span class="s0"># Then we compute the sum of the two elements with the highest indexes of the list</span>
+    <span class="s2">while True</span><span class="s1">:</span>
+        <span class="s1">x = len(list) - </span><span class="s4">1</span>
+        <span class="s1">y = x - </span><span class="s4">1</span>
+        <span class="s1">sum = list[x] + list[y]</span>
+
+        <span class="s0"># If the sum is not higher than the user input, we add it at the end of the list</span>
+        <span class="s2">if </span><span class="s1">sum &lt; upper_threshold:</span>
+            <span class="s1">list.append(sum)</span>
+
+        <span class="s0"># If the sum is higher than the user input, we stop the algorithm</span>
+        <span class="s2">else</span><span class="s1">:</span>
+            <span class="s2">break</span>
+
+    <span class="s0"># Finally, we display the values</span>
+    <span class="s1">print(</span><span class="s3">&quot;</span><span class="s2">\n</span><span class="s3">Max value :&quot;</span><span class="s2">, </span><span class="s1">upper_threshold)</span>
+    <span class="s1">print(</span><span class="s3">&quot;Fibonaci list :&quot;</span><span class="s2">, </span><span class="s1">list)</span>
+<span class="s0">##############################################</span>
+
+
+<span class="s0">##############################################</span>
+<span class="s0"># Exercise 1.5-2</span>
+<span class="s1">print(</span><span class="s3">&quot;</span><span class="s2">\n</span><span class="s3">Exercise 1.5-2 :&quot;</span><span class="s1">)</span>
+
+
+<span class="s2">def </span><span class="s1">display_as_digi(number: int) -&gt; </span><span class="s2">None</span><span class="s1">:</span>
+    <span class="s0"># Firstly, we get the list of all the numbers in the integer, in the right order</span>
+    <span class="s1">integersList = []</span>
+
+    <span class="s2">while </span><span class="s1">number &gt; </span><span class="s4">0</span><span class="s1">:</span>
+        <span class="s2">if </span><span class="s1">number &lt; </span><span class="s4">10</span><span class="s1">:</span>
+            <span class="s1">integersList.insert(</span><span class="s4">0</span><span class="s2">, </span><span class="s1">number)</span>
+            <span class="s2">break</span>
+
+        <span class="s2">else</span><span class="s1">:</span>
+            <span class="s1">integersList.insert(</span><span class="s4">0</span><span class="s2">, </span><span class="s1">number % </span><span class="s4">10</span><span class="s1">)</span>
+            <span class="s1">number = number // </span><span class="s4">10</span>
+
+    <span class="s0"># We print an empty line in order to display correctly the digits</span>
+    <span class="s1">print()</span>
+
+    <span class="s0"># Then, we initialize the digits dictionnary</span>
+    <span class="s1">numbers = {</span><span class="s4">0</span><span class="s1">: [</span><span class="s3">'xxx'</span><span class="s2">, </span><span class="s3">'x x'</span><span class="s2">, </span><span class="s3">'x x'</span><span class="s2">, </span><span class="s3">'x x'</span><span class="s2">, </span><span class="s3">'xxx'</span><span class="s1">]</span><span class="s2">,</span>
+               <span class="s4">1</span><span class="s1">: [</span><span class="s3">'  x'</span><span class="s2">, </span><span class="s3">'  x'</span><span class="s2">, </span><span class="s3">'  x'</span><span class="s2">, </span><span class="s3">'  x'</span><span class="s2">, </span><span class="s3">'  x'</span><span class="s1">]</span><span class="s2">,</span>
+               <span class="s4">2</span><span class="s1">: [</span><span class="s3">'xxx'</span><span class="s2">, </span><span class="s3">'  x'</span><span class="s2">, </span><span class="s3">'xxx'</span><span class="s2">, </span><span class="s3">'x  '</span><span class="s2">, </span><span class="s3">'xxx'</span><span class="s1">]</span><span class="s2">,</span>
+               <span class="s4">3</span><span class="s1">: [</span><span class="s3">'xxx'</span><span class="s2">, </span><span class="s3">'  x'</span><span class="s2">, </span><span class="s3">'xxx'</span><span class="s2">, </span><span class="s3">'  x'</span><span class="s2">, </span><span class="s3">'xxx'</span><span class="s1">]</span><span class="s2">,</span>
+               <span class="s4">4</span><span class="s1">: [</span><span class="s3">'x x'</span><span class="s2">, </span><span class="s3">'x x'</span><span class="s2">, </span><span class="s3">'xxx'</span><span class="s2">, </span><span class="s3">'  x'</span><span class="s2">, </span><span class="s3">'  x'</span><span class="s1">]</span><span class="s2">,</span>
+               <span class="s4">5</span><span class="s1">: [</span><span class="s3">'xxx'</span><span class="s2">, </span><span class="s3">'x  '</span><span class="s2">, </span><span class="s3">'xxx'</span><span class="s2">, </span><span class="s3">'  x'</span><span class="s2">, </span><span class="s3">'xxx'</span><span class="s1">]</span><span class="s2">,</span>
+               <span class="s4">6</span><span class="s1">: [</span><span class="s3">'xxx'</span><span class="s2">, </span><span class="s3">'x  '</span><span class="s2">, </span><span class="s3">'xxx'</span><span class="s2">, </span><span class="s3">'x x'</span><span class="s2">, </span><span class="s3">'xxx'</span><span class="s1">]</span><span class="s2">,</span>
+               <span class="s4">7</span><span class="s1">: [</span><span class="s3">'xxx'</span><span class="s2">, </span><span class="s3">'  x'</span><span class="s2">, </span><span class="s3">'  x'</span><span class="s2">, </span><span class="s3">'  x'</span><span class="s2">, </span><span class="s3">'  x'</span><span class="s1">]</span><span class="s2">,</span>
+               <span class="s4">8</span><span class="s1">: [</span><span class="s3">'xxx'</span><span class="s2">, </span><span class="s3">'x x'</span><span class="s2">, </span><span class="s3">'xxx'</span><span class="s2">, </span><span class="s3">'x x'</span><span class="s2">, </span><span class="s3">'xxx'</span><span class="s1">]</span><span class="s2">,</span>
+               <span class="s4">9</span><span class="s1">: [</span><span class="s3">'xxx'</span><span class="s2">, </span><span class="s3">'x x'</span><span class="s2">, </span><span class="s3">'xxx'</span><span class="s2">, </span><span class="s3">'  x'</span><span class="s2">, </span><span class="s3">'xxx'</span><span class="s1">]}</span>
+
+    <span class="s0"># Finally, we run into the dictionnary</span>
+    <span class="s2">for </span><span class="s1">i </span><span class="s2">in </span><span class="s1">range(</span><span class="s4">0</span><span class="s2">, </span><span class="s4">5</span><span class="s1">):</span>
+        <span class="s2">for </span><span class="s1">j </span><span class="s2">in </span><span class="s1">integersList:</span>
+            <span class="s1">print(numbers[j][i]</span><span class="s2">, </span><span class="s1">end=</span><span class="s3">&quot;  &quot;</span><span class="s1">)</span>
+        <span class="s1">print()</span>
+<span class="s0">##############################################</span>
+
+
+<span class="s0">##############################################</span>
+<span class="s0"># Exercise 2.1</span>
+<span class="s1">print(</span><span class="s3">&quot;</span><span class="s2">\n</span><span class="s3">Exercise 2.1 :&quot;</span><span class="s1">)</span>
+
+<span class="s0"># Declare the given array in the exercise</span>
+<span class="s1">numpyArray = numpy.array([</span>
+    <span class="s1">[</span><span class="s4">25</span><span class="s2">, </span><span class="s4">24</span><span class="s2">, </span><span class="s4">23</span><span class="s2">, </span><span class="s4">22</span><span class="s2">, </span><span class="s4">21</span><span class="s1">]</span><span class="s2">,</span>
+    <span class="s1">[</span><span class="s4">20</span><span class="s2">, </span><span class="s4">19</span><span class="s2">, </span><span class="s4">18</span><span class="s2">, </span><span class="s4">17</span><span class="s2">, </span><span class="s4">16</span><span class="s1">]</span><span class="s2">,</span>
+    <span class="s1">[</span><span class="s4">15</span><span class="s2">, </span><span class="s4">14</span><span class="s2">, </span><span class="s4">13</span><span class="s2">, </span><span class="s4">12</span><span class="s2">, </span><span class="s4">11</span><span class="s1">]</span><span class="s2">,</span>
+    <span class="s1">[</span><span class="s4">10</span><span class="s2">, </span><span class="s4">9</span><span class="s2">, </span><span class="s4">8</span><span class="s2">, </span><span class="s4">7</span><span class="s2">, </span><span class="s4">6</span><span class="s1">]</span><span class="s2">,</span>
+    <span class="s1">[</span><span class="s4">5</span><span class="s2">, </span><span class="s4">4</span><span class="s2">, </span><span class="s4">3</span><span class="s2">, </span><span class="s4">2</span><span class="s2">, </span><span class="s4">1</span><span class="s1">]</span>
+<span class="s1">])</span>
+
+<span class="s0"># Let the user enter the threshold and array size inputs</span>
+<span class="s1">userThreshold = int(input(</span><span class="s3">&quot;Please, enter a threshold number : &quot;</span><span class="s1">))</span>
+<span class="s1">userArray = []</span>
+<span class="s1">arraySize = int(input(</span><span class="s3">&quot;Size of array : &quot;</span><span class="s1">))</span>
+
+<span class="s0"># Let the user enter each value of the array</span>
+<span class="s2">for </span><span class="s1">i </span><span class="s2">in </span><span class="s1">range(arraySize):</span>
+    <span class="s1">userArray.append(int(input(</span><span class="s3">&quot;Element : &quot;</span><span class="s1">)))</span>
+
+<span class="s0"># Reinitialize the array with given values</span>
+<span class="s1">userArray = numpy.array(userArray)</span>
+
+<span class="s0"># Print the initial array</span>
+<span class="s1">print(</span><span class="s3">&quot;</span><span class="s2">\n</span><span class="s3">The initial array is :&quot;</span><span class="s1">)</span>
+<span class="s0"># print(numpyArray)    # Case 1 : Already declared array</span>
+<span class="s1">print(userArray)      </span><span class="s0"># Case 2 : User input array</span>
+
+<span class="s0"># Replace all the values of the array that are lower than userThreshold value</span>
+<span class="s0"># numpyArray[numpyArray &lt; userThreshold] = 0    # Case 1 : Already declared array</span>
+<span class="s1">userArray[userArray &lt; userThreshold] = </span><span class="s4">0        </span><span class="s0"># Case 2 : User input array</span>
+
+<span class="s0"># Finally, we display the results</span>
+<span class="s1">print(</span><span class="s3">&quot;</span><span class="s2">\n</span><span class="s3">The final array is :&quot;</span><span class="s1">)</span>
+<span class="s0"># print(numpyArray)             # Case 1 : Already declared array</span>
+<span class="s1">print(userArray)                </span><span class="s0"># Case 2 : User input array</span>
+<span class="s0">##############################################</span>
+
+
+<span class="s0">##############################################</span>
+<span class="s0"># Exercise 2.2</span>
+<span class="s1">print(</span><span class="s3">&quot;</span><span class="s2">\n</span><span class="s3">Exercise 2.2 :&quot;</span><span class="s1">)</span>
+
+<span class="s2">def </span><span class="s1">show_in_digi(input_integer: int) -&gt; </span><span class="s2">None</span><span class="s1">:</span>
+
+    <span class="s0"># Firstly, we get the list of all the numbers in the integer, in the right order</span>
+    <span class="s1">integersList = []</span>
+
+    <span class="s2">while </span><span class="s1">input_integer &gt; </span><span class="s4">0</span><span class="s1">:</span>
+        <span class="s2">if </span><span class="s1">input_integer &lt; </span><span class="s4">10</span><span class="s1">:</span>
+            <span class="s1">integersList.insert(</span><span class="s4">0</span><span class="s2">, </span><span class="s1">input_integer)</span>
+            <span class="s2">break</span>
+
+        <span class="s2">else</span><span class="s1">:</span>
+            <span class="s1">integersList.insert(</span><span class="s4">0</span><span class="s2">, </span><span class="s1">input_integer % </span><span class="s4">10</span><span class="s1">)</span>
+            <span class="s1">input_integer = input_integer // </span><span class="s4">10</span>
+<span class="s0">##############################################</span>
+
+
+<span class="s0">##############################################</span>
+<span class="s0"># Exercise 3</span>
+<span class="s1">print(</span><span class="s3">&quot;</span><span class="s2">\n</span><span class="s3">Exercise 3 :&quot;</span><span class="s1">)</span>
+
+<span class="s0"># Display the dataset</span>
+<span class="s1">dataset = pd.read_csv(</span><span class="s3">'california_housing_test.csv'</span><span class="s1">)</span>
+<span class="s1">print(dataset)</span>
+
+<span class="s0"># 3.1 : Check what dataset.describe() does</span>
+<span class="s1">print(</span><span class="s3">&quot;</span><span class="s2">\n</span><span class="s3">Describe of the dataset :&quot;</span><span class="s1">)</span>
+<span class="s1">dataset.describe()</span>
+
+<span class="s0"># 3.2 : Drop 1st and last rows</span>
+<span class="s1">droppedDataset = dataset.drop([</span><span class="s4">0</span><span class="s2">, </span><span class="s4">2999</span><span class="s1">])</span>
+<span class="s1">print(</span><span class="s3">&quot;</span><span class="s2">\n</span><span class="s3">&quot;</span><span class="s1">)</span>
+<span class="s1">print(droppedDataset)</span>
+
+<span class="s0"># 3.3 : households column mean value</span>
+<span class="s1">meanHouseholdsColumn = dataset[</span><span class="s3">&quot;households&quot;</span><span class="s1">].mean()</span>
+<span class="s1">print(</span><span class="s3">&quot;</span><span class="s2">\n</span><span class="s3">Households column mean value is :&quot;</span><span class="s2">, </span><span class="s1">meanHouseholdsColumn)</span>
+
+<span class="s0"># 3.4 households column plotting</span>
+<span class="s1">dataset[</span><span class="s3">&quot;households&quot;</span><span class="s1">].plot()</span>
+<span class="s1">xlabel = </span><span class="s3">'ID'</span>
+<span class="s1">ylabel = </span><span class="s3">'Number of households'</span>
+<span class="s1">pyplot.show()</span>
+
+<span class="s0"># 3.5 : Check if there are any NaN values in the dataset and replace them with dataset mean value</span>
+<span class="s1">dataset.isnull().values.any()</span>
+<span class="s1">pd.dataset.mean()</span>
+<span class="s1">datasetWithoutNaN = dataset.fillna(dataset.mean())</span>
+<span class="s1">print(</span><span class="s3">&quot;</span><span class="s2">\n</span><span class="s3">Dataset without NaN values :&quot;</span><span class="s1">)</span>
+<span class="s1">print(datasetWithoutNaN)</span>
+<span class="s0">##############################################</span>
+</pre>
+</body>
+</html>
