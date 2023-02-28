@@ -1,0 +1,195 @@
+<html>
+<head>
+<title>main.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #808080;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #cc7832;}
+.s3 { color: #6897bb;}
+.s4 { color: #6a8759;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+main.py</font>
+</center></td></tr></table>
+<pre><span class="s0">##########################</span>
+<span class="s0">########## LAB2 ##########</span>
+<span class="s0">##########################</span>
+
+<span class="s0">##########################</span>
+<span class="s0"># Import required libraries</span>
+<span class="s2">import </span><span class="s1">copy</span>
+<span class="s2">import </span><span class="s1">matplotlib.pyplot </span><span class="s2">as </span><span class="s1">plt</span>
+<span class="s2">from </span><span class="s1">matplotlib.image </span><span class="s2">import </span><span class="s1">imread</span>
+<span class="s2">import </span><span class="s1">numpy </span><span class="s2">as </span><span class="s1">np</span>
+<span class="s2">from </span><span class="s1">numpy.linalg </span><span class="s2">import </span><span class="s1">norm</span>
+<span class="s2">from </span><span class="s1">sklearn.cluster </span><span class="s2">import </span><span class="s1">KMeans</span>
+
+<span class="s0">##########################</span>
+<span class="s0"># Exercise 1 - K-means from scratch</span>
+
+<span class="s0"># Variables declarations</span>
+<span class="s1">k = </span><span class="s3">4</span>
+<span class="s1">n_of_points = </span><span class="s3">60</span>
+<span class="s1">n_of_iterations = </span><span class="s3">200</span>
+
+
+<span class="s0"># Functions definitions</span>
+<span class="s2">def </span><span class="s1">split_points(points: np.array</span><span class="s2">, </span><span class="s1">n_of_point_groups: int) -&gt; np.array:</span>
+    <span class="s1">changed_points = copy.copy(points)</span>
+    <span class="s1">index = np.arange(len(points))</span>
+    <span class="s1">groups_index = np.split(index</span><span class="s2">, </span><span class="s1">n_of_point_groups)</span>
+
+    <span class="s2">for </span><span class="s1">id_group</span><span class="s2">, </span><span class="s1">group_index </span><span class="s2">in </span><span class="s1">enumerate(groups_index):</span>
+        <span class="s1">changed_points[group_index] = points[group_index] + </span><span class="s3">5 </span><span class="s1">* id_group</span>
+
+    <span class="s2">return </span><span class="s1">changed_points</span>
+
+
+<span class="s0"># Variables declaration</span>
+<span class="s1">points = np.random.rand(n_of_points</span><span class="s2">, </span><span class="s3">2</span><span class="s1">) * </span><span class="s3">5</span>
+<span class="s1">points = split_points(points</span><span class="s2">, </span><span class="s3">3</span><span class="s1">)</span>
+
+
+<span class="s2">def </span><span class="s1">initialize_clusters(points: np.array</span><span class="s2">, </span><span class="s1">k_clusters: int) -&gt; np.array:</span>
+    <span class="s1">vector_with_all_indexes = np.arange(points.shape[</span><span class="s3">0</span><span class="s1">])</span>
+    <span class="s1">vector_with_all_indexes = np.random.permutation(vector_with_all_indexes)</span>
+    <span class="s1">required_indexes = vector_with_all_indexes[:k_clusters]</span>
+    <span class="s2">return </span><span class="s1">points[required_indexes]</span>
+
+
+<span class="s2">def </span><span class="s1">calculate_metric(points: np.array</span><span class="s2">, </span><span class="s1">centroid: np.array) -&gt; np.array:</span>
+    <span class="s2">return </span><span class="s1">np.square(norm(points - centroid</span><span class="s2">, </span><span class="s1">axis=</span><span class="s3">1</span><span class="s1">))</span>
+
+
+<span class="s2">def </span><span class="s1">compute_distances(points: np.array</span><span class="s2">, </span><span class="s1">centroids_points: np.array) -&gt; np.array:</span>
+    <span class="s2">return </span><span class="s1">np.asarray([calculate_metric(points</span><span class="s2">, </span><span class="s1">centroid) </span><span class="s2">for </span><span class="s1">centroid </span><span class="s2">in </span><span class="s1">centroids_points])</span>
+
+
+<span class="s2">def </span><span class="s1">assign_centroids(distances: np.array):</span>
+    <span class="s2">return </span><span class="s1">np.argmin(distances</span><span class="s2">, </span><span class="s1">axis=</span><span class="s3">1</span><span class="s1">)</span>
+
+
+<span class="s2">def </span><span class="s1">calculate_objective(cluster_belongs: np.array</span><span class="s2">, </span><span class="s1">distances: np.array) -&gt; np.array:</span>
+    <span class="s1">distances = distances.T</span>
+    <span class="s1">selected_min = distances[np.arange(len(distances))</span><span class="s2">, </span><span class="s1">cluster_belongs]</span>
+    <span class="s2">return </span><span class="s1">np.sum(selected_min)</span>
+
+
+<span class="s2">def </span><span class="s1">calculate_new_centroids(points: np.array</span><span class="s2">, </span><span class="s1">clusters_belongs: np.array</span><span class="s2">, </span><span class="s1">n_of_clusters: int) -&gt; np.array:</span>
+    <span class="s1">new_clusters = []</span>
+    <span class="s2">for </span><span class="s1">cluster_id </span><span class="s2">in </span><span class="s1">range(n_of_clusters):</span>
+        <span class="s1">j = np.where(clusters_belongs == cluster_id)</span>
+        <span class="s1">points_sel = points[j]</span>
+        <span class="s1">new_clusters.append(np.mean(points_sel</span><span class="s2">, </span><span class="s1">axis=</span><span class="s3">0</span><span class="s1">))</span>
+
+    <span class="s2">return </span><span class="s1">np.array(new_clusters)</span>
+
+
+<span class="s2">def </span><span class="s1">fit(points: np.array</span><span class="s2">, </span><span class="s1">n_of_centroids: int</span><span class="s2">, </span><span class="s1">n_of_oterations: int</span><span class="s2">, </span><span class="s1">error: float = </span><span class="s3">0.001</span><span class="s1">) -&gt; tuple:</span>
+    <span class="s1">centroid_points = initialize_clusters(points</span><span class="s2">, </span><span class="s1">n_of_centroids)</span>
+    <span class="s1">last_objective = </span><span class="s3">10000</span>
+
+    <span class="s2">for </span><span class="s1">n </span><span class="s2">in </span><span class="s1">range(n_of_oterations):</span>
+        <span class="s1">distances = compute_distances(points</span><span class="s2">, </span><span class="s1">centroid_points)</span>
+        <span class="s1">cluster_belongs = np.argmin(distances</span><span class="s2">, </span><span class="s1">axis=</span><span class="s3">0</span><span class="s1">)</span>
+
+        <span class="s1">objective = calculate_objective(cluster_belongs</span><span class="s2">, </span><span class="s1">distances)</span>
+
+        <span class="s2">if </span><span class="s1">abs(last_objective - objective) &lt; error:</span>
+            <span class="s2">break</span>
+
+        <span class="s1">last_objective = objective</span>
+
+        <span class="s1">centroid_points = calculate_new_centroids(points</span><span class="s2">, </span><span class="s1">cluster_belongs</span><span class="s2">, </span><span class="s1">n_of_centroids)</span>
+
+    <span class="s2">return </span><span class="s1">centroid_points</span><span class="s2">, </span><span class="s1">last_objective</span>
+
+
+<span class="s1">centroids</span><span class="s2">, </span><span class="s1">_ = fit(points</span><span class="s2">, </span><span class="s3">3</span><span class="s2">, </span><span class="s1">n_of_iterations)</span>
+
+<span class="s0"># Create the figure</span>
+<span class="s1">plt.figure()</span>
+<span class="s1">plt.scatter(points[:</span><span class="s2">, </span><span class="s3">0</span><span class="s1">]</span><span class="s2">, </span><span class="s1">points[:</span><span class="s2">, </span><span class="s3">1</span><span class="s1">])</span>
+<span class="s1">plt.scatter(centroids[:</span><span class="s2">, </span><span class="s3">0</span><span class="s1">].T</span><span class="s2">, </span><span class="s1">centroids[:</span><span class="s2">, </span><span class="s3">1</span><span class="s1">].T)</span>
+
+<span class="s0"># Display the figure</span>
+<span class="s1">plt.show()</span>
+<span class="s0">##########################</span>
+
+
+<span class="s0">##########################</span>
+<span class="s0"># Exercise 2 - Implementing an Elbow Method</span>
+
+<span class="s0"># Variables declarations</span>
+<span class="s1">k_all = range(</span><span class="s3">2</span><span class="s2">, </span><span class="s3">10</span><span class="s1">)    </span><span class="s0"># Create a vector with values contained between 2 and 10</span>
+<span class="s1">all_objective = []      </span><span class="s0"># Create an empty list</span>
+
+<span class="s0"># Objective function definition</span>
+<span class="s2">for </span><span class="s1">n_of_cluster </span><span class="s2">in </span><span class="s1">k_all:</span>
+    <span class="s1">_</span><span class="s2">, </span><span class="s1">objective = fit(points</span><span class="s2">, </span><span class="s1">n_of_cluster</span><span class="s2">, </span><span class="s1">n_of_iterations)</span>
+    <span class="s1">all_objective.append(objective)</span>
+
+<span class="s0"># Create the figure</span>
+<span class="s1">plt.figure()</span>
+<span class="s1">plt.plot(k_all</span><span class="s2">, </span><span class="s1">all_objective)</span>
+
+<span class="s0"># Rename the axis</span>
+<span class="s1">plt.xlabel(</span><span class="s4">'K clusters'</span><span class="s1">)</span>
+<span class="s1">plt.ylabel(</span><span class="s4">'Sum of squared distance'</span><span class="s1">)</span>
+
+<span class="s0"># Display the figure</span>
+<span class="s1">plt.show()</span>
+<span class="s0">##########################</span>
+
+
+<span class="s0">##########################</span>
+<span class="s0"># Exercise 3 - Image Compression</span>
+
+<span class="s0"># Load the image</span>
+<span class="s1">loaded_image = imread(</span><span class="s4">'fish.jpg'</span><span class="s1">)</span>
+
+<span class="s0"># Show the image</span>
+<span class="s1">plt.imshow(loaded_image)</span>
+<span class="s1">plt.show()</span>
+
+<span class="s0"># Function definition</span>
+<span class="s2">def </span><span class="s1">compress_image(image: np.array</span><span class="s2">, </span><span class="s1">number_of_colours: int) -&gt; np.array:</span>
+    <span class="s0"># Get the matrix dimensions (height, width, 3 RGB sub-pixel values)</span>
+    <span class="s1">original_shape = image.shape</span>
+
+    <span class="s0"># Change the number of dimensions (from 3 to 2)</span>
+    <span class="s1">image_reshaped = np.reshape(image</span><span class="s2">, </span><span class="s1">(image.shape[</span><span class="s3">0</span><span class="s1">] * image.shape[</span><span class="s3">1</span><span class="s1">]</span><span class="s2">, </span><span class="s1">image.shape[</span><span class="s3">2</span><span class="s1">]))</span>
+
+    <span class="s0"># Compute kmeans with the wanted number of colours</span>
+    <span class="s1">kmeans = KMeans(n_clusters=number_of_colours</span><span class="s2">, </span><span class="s1">random_state=</span><span class="s3">0</span><span class="s1">).fit(image_reshaped)</span>
+
+    <span class="s0"># Predict for each sub-pixel value the nearer cluster</span>
+    <span class="s1">image_new = kmeans.predict(image_reshaped)</span>
+    <span class="s1">print(</span><span class="s4">&quot;</span><span class="s2">\n</span><span class="s4">Sub-pixel nearer cluster value :&quot;</span><span class="s2">, </span><span class="s1">image_new)</span>
+
+    <span class="s0"># Display labels in the figure</span>
+    <span class="s1">cluster_labels = kmeans.labels_</span>
+    <span class="s1">colors = kmeans.cluster_centers_.astype(</span><span class="s4">'uint8'</span><span class="s1">)</span>
+
+    <span class="s0"># Create new image with clustered values</span>
+    <span class="s1">new_image = colors[cluster_labels].reshape(original_shape)</span>
+
+    <span class="s2">return </span><span class="s1">new_image</span>
+
+
+<span class="s0"># Compress the image</span>
+<span class="s1">compressed_image = compress_image(loaded_image</span><span class="s2">, </span><span class="s3">5</span><span class="s1">)</span>
+
+<span class="s0"># Show the compressed image</span>
+<span class="s1">plt.figure()</span>
+<span class="s1">plt.imshow(compressed_image)</span>
+<span class="s1">plt.show()</span>
+<span class="s0">##########################</span>
+</pre>
+</body>
+</html>
