@@ -1,0 +1,240 @@
+<html>
+<head>
+<title>main.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #808080;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #cc7832;}
+.s3 { color: #6a8759;}
+.s4 { color: #6897bb;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+main.py</font>
+</center></td></tr></table>
+<pre><span class="s0">#################</span>
+<span class="s0">##### LAB 3 #####</span>
+<span class="s0">#################</span>
+
+<span class="s0">#################</span>
+<span class="s0"># Import libraries</span>
+<span class="s2">import </span><span class="s1">matplotlib.pyplot </span><span class="s2">as </span><span class="s1">plt</span>
+<span class="s2">import </span><span class="s1">numpy </span><span class="s2">as </span><span class="s1">np</span>
+<span class="s2">from </span><span class="s1">numpy </span><span class="s2">import </span><span class="s1">quantile</span><span class="s2">, </span><span class="s1">where</span><span class="s2">, </span><span class="s1">random</span>
+<span class="s2">from </span><span class="s1">sklearn.datasets </span><span class="s2">import </span><span class="s1">load_iris</span>
+<span class="s2">from </span><span class="s1">sklearn.datasets </span><span class="s2">import </span><span class="s1">make_blobs</span>
+<span class="s2">from </span><span class="s1">sklearn.model_selection </span><span class="s2">import </span><span class="s1">train_test_split</span>
+<span class="s2">from </span><span class="s1">sklearn.svm </span><span class="s2">import </span><span class="s1">SVC</span>
+<span class="s2">from </span><span class="s1">sklearn.svm </span><span class="s2">import </span><span class="s1">OneClassSVM</span>
+<span class="s0">#################</span>
+
+<span class="s0">###############################################</span>
+<span class="s0">##### Exercise 1 : SVM for Classification #####</span>
+<span class="s0">###############################################</span>
+
+<span class="s1">print(</span><span class="s3">'</span><span class="s2">\n</span><span class="s3">Exercise 1 : SVM for Classification :</span><span class="s2">\n</span><span class="s3">'</span><span class="s1">)</span>
+
+<span class="s0">#################</span>
+<span class="s0"># Load Iris dataset</span>
+<span class="s1">iris = load_iris()</span>
+
+<span class="s0"># Get Iris feature names</span>
+<span class="s1">print(</span><span class="s3">'</span><span class="s2">\n</span><span class="s3">Iris feature names :'</span><span class="s1">)</span>
+<span class="s1">print(iris.feature_names)</span>
+
+<span class="s0"># Get Iris data between 0 &amp; 5</span>
+<span class="s1">print(</span><span class="s3">'</span><span class="s2">\n</span><span class="s3">Iris data :'</span><span class="s1">)</span>
+<span class="s1">print(iris.data[</span><span class="s4">0</span><span class="s1">:</span><span class="s4">5</span><span class="s2">, </span><span class="s1">:])</span>
+
+<span class="s0"># Get Iris target</span>
+<span class="s1">print(</span><span class="s3">'</span><span class="s2">\n</span><span class="s3">Iris target :'</span><span class="s1">)</span>
+<span class="s1">print(iris.target[:])</span>
+
+<span class="s0"># Get the whole Iris data</span>
+<span class="s1">print(</span><span class="s3">'</span><span class="s2">\n</span><span class="s3">Iris data (whole data) :'</span><span class="s1">)</span>
+<span class="s1">print(iris.data)</span>
+<span class="s0">#################</span>
+
+<span class="s0">#################</span>
+<span class="s0"># Split data into training and testing parts</span>
+<span class="s1">print(</span><span class="s3">'</span><span class="s2">\n</span><span class="s3">Split data into training and testing parts :'</span><span class="s1">)</span>
+<span class="s1">X = iris.data</span>
+<span class="s1">y = iris.target</span>
+
+<span class="s0"># Specifies percentage of the data (here 20% of the data will be used for the testing and 80% for the checking)</span>
+<span class="s1">X_train</span><span class="s2">, </span><span class="s1">X_test</span><span class="s2">, </span><span class="s1">y_train</span><span class="s2">, </span><span class="s1">y_test = train_test_split(X</span><span class="s2">, </span><span class="s1">y</span><span class="s2">, </span><span class="s1">test_size=</span><span class="s4">0.2</span><span class="s1">)</span>
+
+<span class="s0"># Display X, X_train &amp; X_test dimensions in console</span>
+<span class="s1">print(</span><span class="s3">'X shape :'</span><span class="s2">, </span><span class="s1">X.shape)</span>
+<span class="s1">print(</span><span class="s3">'X_train shape :'</span><span class="s2">, </span><span class="s1">X_train.shape)</span>
+<span class="s1">print(</span><span class="s3">'X_test shape :'</span><span class="s2">, </span><span class="s1">X_test.shape)</span>
+<span class="s0">#################</span>
+
+<span class="s0">#################</span>
+<span class="s0"># Use a Support Vector Machine for classification</span>
+<span class="s1">print(</span><span class="s3">'</span><span class="s2">\n</span><span class="s3">Use a Support Vector Machine for classification :'</span><span class="s1">)</span>
+<span class="s1">SVMmodel = SVC(kernel=</span><span class="s3">'linear'</span><span class="s1">)  </span><span class="s0"># Linear kernel will search for separate lines --&gt; Definition of the kernel parameters</span>
+<span class="s1">SVMmodel.fit(X_train</span><span class="s2">, </span><span class="s1">y_train)  </span><span class="s0"># Feed the SVModel</span>
+
+<span class="s0"># Check what are the parameters</span>
+<span class="s1">SVMmodel.get_params()</span>
+<span class="s1">print(</span><span class="s3">'SVM parameters :'</span><span class="s2">, </span><span class="s1">SVMmodel.get_params())</span>
+
+<span class="s0"># Check how good it classifies</span>
+<span class="s1">SVMmodel.score(X_test</span><span class="s2">, </span><span class="s1">y_test)</span>
+<span class="s1">print(</span><span class="s3">'SVM score :'</span><span class="s2">, </span><span class="s1">SVMmodel.score(X_test</span><span class="s2">, </span><span class="s1">y_test))</span>
+<span class="s0">#################</span>
+
+<span class="s0">#################</span>
+<span class="s0"># Plot scatters of targets 0 and 1 and check the separability of the classes</span>
+<span class="s1">print(</span><span class="s3">'</span><span class="s2">\n</span><span class="s3">Choose only first two features (columns) of Iris data :'</span><span class="s1">)</span>
+<span class="s0"># X = iris.data[:, 0:2]</span>
+<span class="s0"># y = iris.target</span>
+<span class="s1">X = iris.data[iris.target != </span><span class="s4">2</span><span class="s2">, </span><span class="s4">0</span><span class="s1">:</span><span class="s4">2</span><span class="s1">]</span>
+<span class="s1">y = iris.target[iris.target != </span><span class="s4">2</span><span class="s1">]</span>
+
+<span class="s0"># Specifies percentage of the data (here 20% of the data will be used for the testing and 80% for the checking)</span>
+<span class="s1">X_train</span><span class="s2">, </span><span class="s1">X_test</span><span class="s2">, </span><span class="s1">y_train</span><span class="s2">, </span><span class="s1">y_test = train_test_split(X</span><span class="s2">, </span><span class="s1">y</span><span class="s2">, </span><span class="s1">test_size=</span><span class="s4">0.2</span><span class="s1">)</span>
+
+<span class="s0"># Display X, X_train &amp; X_test dimensions in console</span>
+<span class="s1">print(</span><span class="s3">'X shape (2 targets) :'</span><span class="s2">, </span><span class="s1">X.shape)</span>
+<span class="s1">print(</span><span class="s3">'X_train shape (2 targets) :'</span><span class="s2">, </span><span class="s1">X_train.shape)</span>
+<span class="s1">print(</span><span class="s3">'X_test shape (2 targets) :'</span><span class="s2">, </span><span class="s1">X_test.shape)</span>
+<span class="s1">print(</span><span class="s3">'y shape (2 targets) :'</span><span class="s2">, </span><span class="s1">y.shape)</span>
+
+<span class="s1">plt.scatter(X[y == </span><span class="s4">0</span><span class="s2">, </span><span class="s4">0</span><span class="s1">]</span><span class="s2">, </span><span class="s1">X[y == </span><span class="s4">0</span><span class="s2">, </span><span class="s4">1</span><span class="s1">]</span><span class="s2">, </span><span class="s1">color=</span><span class="s3">'green'</span><span class="s1">)</span>
+<span class="s1">plt.scatter(X[y == </span><span class="s4">1</span><span class="s2">, </span><span class="s4">0</span><span class="s1">]</span><span class="s2">, </span><span class="s1">X[y == </span><span class="s4">1</span><span class="s2">, </span><span class="s4">1</span><span class="s1">]</span><span class="s2">, </span><span class="s1">color=</span><span class="s3">'blue'</span><span class="s1">)</span>
+<span class="s0"># plt.scatter(X[y == 2, 0], X[y == 2, 1], color='cyan')</span>
+
+<span class="s0"># Name figure axis</span>
+<span class="s1">plt.xlabel(</span><span class="s3">&quot;Sepal length (cm)&quot;</span><span class="s1">)</span>
+<span class="s1">plt.ylabel(</span><span class="s3">&quot;Sepal width (cm)&quot;</span><span class="s1">)</span>
+
+<span class="s0"># Display the figure</span>
+<span class="s1">plt.show()</span>
+
+<span class="s0"># Train and test the SVM classifier, play with regularization parameter C</span>
+<span class="s1">print(</span><span class="s3">'</span><span class="s2">\n</span><span class="s3">Train and test the SVM classifier, play with regularization parameter C :'</span><span class="s1">)</span>
+<span class="s1">SVMmodel = SVC(kernel=</span><span class="s3">'linear'</span><span class="s2">, </span><span class="s1">C=</span><span class="s4">200</span><span class="s1">)  </span><span class="s0"># Definition of the kernel parameters</span>
+<span class="s1">SVMmodel.fit(X_train</span><span class="s2">, </span><span class="s1">y_train)  </span><span class="s0"># Feed the SVModel</span>
+
+<span class="s0"># Check what are the parameters</span>
+<span class="s1">SVMmodel.get_params()</span>
+<span class="s1">print(</span><span class="s3">'SVM parameters (C = 200) :'</span><span class="s2">, </span><span class="s1">SVMmodel.get_params())</span>
+
+<span class="s0"># Check how good it classifies</span>
+<span class="s1">SVMmodel.score(X_test</span><span class="s2">, </span><span class="s1">y_test)</span>
+<span class="s1">print(</span><span class="s3">'SVM score (C = 200) :'</span><span class="s2">, </span><span class="s1">SVMmodel.score(X_test</span><span class="s2">, </span><span class="s1">y_test))</span>
+
+<span class="s0"># Initialize the support vectors</span>
+<span class="s1">supvectors = SVMmodel.support_vectors_</span>
+<span class="s1">print(</span><span class="s3">'</span><span class="s2">\n</span><span class="s3">Support vectors :</span><span class="s2">\n</span><span class="s3">'</span><span class="s2">, </span><span class="s1">supvectors)</span>
+<span class="s1">print(</span><span class="s3">'</span><span class="s2">\n</span><span class="s3">Support vectors shape :'</span><span class="s2">, </span><span class="s1">supvectors.shape)</span>
+<span class="s1">print(</span><span class="s3">'Support vectors X_train shape :'</span><span class="s2">, </span><span class="s1">X_train.shape)</span>
+<span class="s1">print(</span><span class="s3">'Support vectors y_train shape :'</span><span class="s2">, </span><span class="s1">y_train.shape)</span>
+
+<span class="s0"># Plot the support vectors here</span>
+<span class="s1">plt.scatter(X_train[y_train == </span><span class="s4">0</span><span class="s2">, </span><span class="s4">0</span><span class="s1">]</span><span class="s2">, </span><span class="s1">X_train[y_train == </span><span class="s4">0</span><span class="s2">, </span><span class="s4">1</span><span class="s1">]</span><span class="s2">, </span><span class="s1">color=</span><span class="s3">'green'</span><span class="s1">)</span>
+<span class="s1">plt.scatter(X_train[y_train == </span><span class="s4">1</span><span class="s2">, </span><span class="s4">0</span><span class="s1">]</span><span class="s2">, </span><span class="s1">X_train[y_train == </span><span class="s4">1</span><span class="s2">, </span><span class="s4">1</span><span class="s1">]</span><span class="s2">, </span><span class="s1">color=</span><span class="s3">'blue'</span><span class="s1">)</span>
+<span class="s0"># plt.scatter(X_train[y_train == 2, 0], X_train[y_train == 2, 1], color='cyan')</span>
+<span class="s1">plt.scatter(supvectors[:</span><span class="s2">, </span><span class="s4">0</span><span class="s1">]</span><span class="s2">, </span><span class="s1">supvectors[:</span><span class="s2">, </span><span class="s4">1</span><span class="s1">]</span><span class="s2">, </span><span class="s1">color=</span><span class="s3">'red'</span><span class="s2">, </span><span class="s1">marker=</span><span class="s3">'+'</span><span class="s2">, </span><span class="s1">s=</span><span class="s4">50</span><span class="s1">)</span>
+
+<span class="s0"># Separating line coefficients:</span>
+<span class="s1">W = SVMmodel.coef_</span>
+<span class="s1">b = SVMmodel.intercept_</span>
+<span class="s1">xgr = np.linspace(min(X[:</span><span class="s2">, </span><span class="s4">0</span><span class="s1">])</span><span class="s2">, </span><span class="s1">max(X[:</span><span class="s2">, </span><span class="s4">0</span><span class="s1">])</span><span class="s2">, </span><span class="s4">100</span><span class="s1">)</span>
+
+<span class="s0"># Display values in console</span>
+<span class="s1">print(</span><span class="s3">'</span><span class="s2">\n</span><span class="s3">Line coefficients :'</span><span class="s1">)</span>
+<span class="s1">print(</span><span class="s3">'W[:, 0] :'</span><span class="s2">, </span><span class="s1">W[:</span><span class="s2">, </span><span class="s4">0</span><span class="s1">])</span>
+<span class="s1">print(</span><span class="s3">'W[:, 1] :'</span><span class="s2">, </span><span class="s1">W[:</span><span class="s2">, </span><span class="s4">1</span><span class="s1">])</span>
+<span class="s1">print(</span><span class="s3">'b :'</span><span class="s2">, </span><span class="s1">b)</span>
+
+<span class="s0"># Plot the figure</span>
+<span class="s1">ygr = -W[:</span><span class="s2">, </span><span class="s4">0</span><span class="s1">] / W[:</span><span class="s2">, </span><span class="s4">1</span><span class="s1">] * xgr - b / W[:</span><span class="s2">, </span><span class="s4">1</span><span class="s1">]</span>
+<span class="s1">plt.scatter(xgr</span><span class="s2">, </span><span class="s1">ygr)</span>
+
+<span class="s0"># Name figure axis</span>
+<span class="s1">plt.xlabel(</span><span class="s3">&quot;Sepal length (cm)&quot;</span><span class="s1">)</span>
+<span class="s1">plt.ylabel(</span><span class="s3">&quot;Sepal width (cm)&quot;</span><span class="s1">)</span>
+
+<span class="s0"># Display the figure</span>
+<span class="s1">plt.show()</span>
+<span class="s0">#################</span>
+
+
+<span class="s0">##################################################</span>
+<span class="s0">##### Exercise 2 : Anomaly detection via SVM #####</span>
+<span class="s0">##################################################</span>
+
+<span class="s1">print(</span><span class="s3">'</span><span class="s2">\n</span><span class="s3">Exercise 2 : Anomaly detection via SVM :</span><span class="s2">\n</span><span class="s3">'</span><span class="s1">)</span>
+
+<span class="s0">#################</span>
+<span class="s0"># Import one-class SVM and generate data (Gaussian blobs in 2D-plane) :</span>
+<span class="s1">random.seed(</span><span class="s4">11</span><span class="s1">)</span>
+<span class="s1">x</span><span class="s2">, </span><span class="s1">_ = make_blobs(n_samples=</span><span class="s4">300</span><span class="s2">, </span><span class="s1">centers=</span><span class="s4">1</span><span class="s2">, </span><span class="s1">cluster_std=</span><span class="s4">.3</span><span class="s2">, </span><span class="s1">center_box=(</span><span class="s4">4</span><span class="s2">, </span><span class="s4">4</span><span class="s1">))</span>
+
+<span class="s0"># Plot the figure</span>
+<span class="s1">plt.scatter(x[:</span><span class="s2">,</span><span class="s4">0</span><span class="s1">]</span><span class="s2">, </span><span class="s1">x[:</span><span class="s2">,</span><span class="s4">1</span><span class="s1">])</span>
+<span class="s1">plt.show()</span>
+<span class="s0">#################</span>
+
+<span class="s0">#################</span>
+<span class="s0"># Train one-class SVM and plot the outliers (outputs of prediction being equal to -1) :</span>
+<span class="s1">SVMmodelOne = OneClassSVM(kernel=</span><span class="s3">'rbf'</span><span class="s2">, </span><span class="s1">gamma=</span><span class="s4">0.001</span><span class="s2">, </span><span class="s1">nu=</span><span class="s4">0.03</span><span class="s1">)</span>
+
+<span class="s0"># Fit the matrix</span>
+<span class="s1">SVMmodelOne.fit(x)</span>
+
+<span class="s0"># Predict the model</span>
+<span class="s1">pred = SVMmodelOne.predict(x)</span>
+<span class="s1">anom_index = where(pred == -</span><span class="s4">1</span><span class="s1">)</span>
+<span class="s1">values = x[anom_index]</span>
+
+<span class="s0"># Plot one dot for each observation</span>
+<span class="s1">plt.scatter(x[:</span><span class="s2">, </span><span class="s4">0</span><span class="s1">]</span><span class="s2">, </span><span class="s1">x[:</span><span class="s2">, </span><span class="s4">1</span><span class="s1">])</span>
+<span class="s1">plt.scatter(values[:</span><span class="s2">, </span><span class="s4">0</span><span class="s1">]</span><span class="s2">, </span><span class="s1">values[:</span><span class="s2">, </span><span class="s4">1</span><span class="s1">]</span><span class="s2">, </span><span class="s1">color=</span><span class="s3">'red'</span><span class="s1">)</span>
+
+<span class="s0"># Rename axis</span>
+<span class="s1">plt.axis(</span><span class="s3">'equal'</span><span class="s1">)</span>
+
+<span class="s0"># Plot the figure</span>
+<span class="s1">plt.show()</span>
+<span class="s0">#################</span>
+
+<span class="s0">#################</span>
+<span class="s0"># Plot the support vectors</span>
+
+<span class="s0">#################</span>
+
+<span class="s0">#################</span>
+<span class="s0"># What if we want to have a control what is outlier?</span>
+<span class="s0"># Use e.g. 5% &quot;quantile&quot; to mark the outliers.</span>
+<span class="s0"># Every point with lower score than threshold will be an outlier.</span>
+
+<span class="s0"># Compute the log-likelihood of each sample under the model</span>
+<span class="s1">scores = SVMmodelOne.score_samples(x)</span>
+
+<span class="s0"># Set the threshold</span>
+<span class="s1">thresh = quantile(scores</span><span class="s2">, </span><span class="s4">0.01</span><span class="s1">)</span>
+<span class="s1">print(thresh)</span>
+<span class="s1">index = where(scores &lt;= thresh)</span>
+<span class="s1">values = x[index]</span>
+
+<span class="s0"># Plot one dot for each observation</span>
+<span class="s1">plt.scatter(x[:</span><span class="s2">, </span><span class="s4">0</span><span class="s1">]</span><span class="s2">, </span><span class="s1">x[:</span><span class="s2">, </span><span class="s4">1</span><span class="s1">])</span>
+<span class="s1">plt.scatter(values[:</span><span class="s2">, </span><span class="s4">0</span><span class="s1">]</span><span class="s2">, </span><span class="s1">values[:</span><span class="s2">, </span><span class="s4">1</span><span class="s1">]</span><span class="s2">, </span><span class="s1">color=</span><span class="s3">'red'</span><span class="s1">)</span>
+
+<span class="s0"># Rename axis</span>
+<span class="s1">plt.axis(</span><span class="s3">'equal'</span><span class="s1">)</span>
+
+<span class="s0"># Plot the figure</span>
+<span class="s1">plt.show()</span>
+<span class="s0">#################</span>
+</pre>
+</body>
+</html>
