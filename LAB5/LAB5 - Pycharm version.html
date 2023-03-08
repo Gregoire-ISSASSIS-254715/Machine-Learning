@@ -1,0 +1,179 @@
+<html>
+<head>
+<title>main.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #808080;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #cc7832;}
+.s3 { color: #6a8759;}
+.s4 { color: #6897bb;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+main.py</font>
+</center></td></tr></table>
+<pre><span class="s0">#################</span>
+<span class="s0">##### LAB 5 #####</span>
+<span class="s0">#################</span>
+
+<span class="s0"># THE LAB HAS BEEN DONE USING GOOGLE COLLAB</span>
+<span class="s0"># THIS FILE HAS BEEN MADE USING PYCHARM WITH THE GOOGLE COLLAB COMMANDS FOR BETTER COMMENTS OF THE CODE</span>
+
+<span class="s0">#################</span>
+<span class="s0"># Import libraries</span>
+<span class="s2">import </span><span class="s1">matplotlib.pyplot </span><span class="s2">as </span><span class="s1">plt</span>
+<span class="s2">import </span><span class="s1">numpy </span><span class="s2">as </span><span class="s1">np</span>
+<span class="s2">import </span><span class="s1">pandas </span><span class="s2">as </span><span class="s1">pd</span>
+<span class="s2">import </span><span class="s1">tensorflow </span><span class="s2">as </span><span class="s1">tf</span>
+<span class="s2">from </span><span class="s1">tensorflow.keras.layers </span><span class="s2">import </span><span class="s1">Dense</span>
+<span class="s2">from </span><span class="s1">tensorflow.keras.models </span><span class="s2">import </span><span class="s1">Sequential</span>
+<span class="s0">#################</span>
+
+<span class="s0">#################################################################</span>
+<span class="s0">#################### Exercise 1 : XOR problem ###################</span>
+<span class="s0">#################################################################</span>
+
+<span class="s1">print(</span><span class="s3">'</span><span class="s2">\n</span><span class="s3">Exercise 1 : XOR problem :</span><span class="s2">\n</span><span class="s3">'</span><span class="s1">)</span>
+
+<span class="s0"># 1 : Prepare data</span>
+<span class="s1">X = [[</span><span class="s4">0</span><span class="s2">, </span><span class="s4">0</span><span class="s1">]</span><span class="s2">, </span><span class="s1">[</span><span class="s4">0</span><span class="s2">, </span><span class="s4">1</span><span class="s1">]</span><span class="s2">, </span><span class="s1">[</span><span class="s4">1</span><span class="s2">, </span><span class="s4">0</span><span class="s1">]</span><span class="s2">, </span><span class="s1">[</span><span class="s4">1</span><span class="s2">, </span><span class="s4">1</span><span class="s1">]]</span>
+<span class="s1">y = [</span><span class="s4">0</span><span class="s2">, </span><span class="s4">1</span><span class="s2">, </span><span class="s4">1</span><span class="s2">, </span><span class="s4">0</span><span class="s1">]</span>
+
+<span class="s0"># 2 : Creating the model</span>
+<span class="s1">model = Sequential()</span>
+<span class="s1">model.add(Dense(</span><span class="s4">2</span><span class="s2">, </span><span class="s1">input_dim=</span><span class="s4">2</span><span class="s2">, </span><span class="s1">activation=</span><span class="s3">'sigmoid'</span><span class="s1">))</span>
+<span class="s1">model.add(Dense(</span><span class="s4">1</span><span class="s2">, </span><span class="s1">activation=</span><span class="s3">'sigmoid'</span><span class="s1">))</span>
+
+<span class="s0"># 3 : Compile the model</span>
+<span class="s1">optimizer = tf.keras.optimizers.SGD(learning_rate=</span><span class="s4">0.5</span><span class="s1">)</span>
+<span class="s1">model.compile(loss=</span><span class="s3">'binary_crossentropy'</span><span class="s2">, </span><span class="s1">optimizer=optimizer</span><span class="s2">, </span><span class="s1">metrics=[</span><span class="s3">'accuracy'</span><span class="s1">])</span>
+
+<span class="s0"># 4 : Model training</span>
+<span class="s1">history = model.fit(X</span><span class="s2">, </span><span class="s1">y</span><span class="s2">, </span><span class="s1">epochs=</span><span class="s4">2000</span><span class="s2">, </span><span class="s1">batch_size=</span><span class="s4">1</span><span class="s2">, </span><span class="s1">verbose=</span><span class="s4">0</span><span class="s1">)</span>
+
+<span class="s0"># 5 : Model evaluation</span>
+<span class="s1">loss</span><span class="s2">, </span><span class="s1">accuracy = model.evaluate(X</span><span class="s2">, </span><span class="s1">y</span><span class="s2">, </span><span class="s1">verbose=</span><span class="s4">0</span><span class="s1">)</span>
+<span class="s1">print(</span><span class="s3">'Accuracy: {:.2f}'</span><span class="s1">.format(accuracy*</span><span class="s4">100</span><span class="s1">))</span>
+
+<span class="s0"># 6 : Model predictions</span>
+<span class="s2">for </span><span class="s1">id_x</span><span class="s2">, </span><span class="s1">data_sample </span><span class="s2">in </span><span class="s1">enumerate(X):</span>
+  <span class="s1">prediction = model.predict([data_sample])</span>
+  <span class="s1">print(</span><span class="s3">f&quot;Data sample is </span><span class="s2">{</span><span class="s1">data_sample</span><span class="s2">}</span><span class="s3">, prediction from model </span><span class="s2">{</span><span class="s1">prediction</span><span class="s2">}</span><span class="s3">, ground_truth </span><span class="s2">{</span><span class="s1">y[id_x]</span><span class="s2">}</span><span class="s3">&quot;</span><span class="s1">)</span>
+
+<span class="s0"># 7 : Display loss function during the training process and accuracy</span>
+<span class="s1">plt.figure()</span>
+<span class="s1">plt.plot(history.history[</span><span class="s3">'loss'</span><span class="s1">])</span>
+<span class="s1">plt.xlabel(</span><span class="s3">'n epochs'</span><span class="s1">)</span>
+<span class="s1">plt.ylabel(</span><span class="s3">'loss'</span><span class="s1">)</span>
+
+<span class="s0"># TASK: Change these parameters and see the differences</span>
+<span class="s0"># number of epochs</span>
+<span class="s0"># learning_rate</span>
+<span class="s0"># activation functions in layers</span>
+<span class="s0"># batch_size</span>
+<span class="s0"># verbose</span>
+<span class="s0"># number of neurons in the hidden layer</span>
+<span class="s0">#################</span>
+
+
+<span class="s0">#################################################################</span>
+<span class="s0">############# Exercise 2 : Congressional Voting Data ############</span>
+<span class="s0">#################################################################</span>
+
+<span class="s1">print(</span><span class="s3">'</span><span class="s2">\n</span><span class="s3">Exercise 2 : Congressional Voting Data :</span><span class="s2">\n</span><span class="s3">'</span><span class="s1">)</span>
+
+<span class="s0"># 1 : Join Google Collab and Google Drive</span>
+<span class="s0"># from google.colab import drive        # Import the Google Drive into Google Collab</span>
+<span class="s0"># drive.mount('/content/drive')         # Join the tools</span>
+
+<span class="s0"># 2.1 : Loading dataset</span>
+<span class="s1">path_to_dataset = </span><span class="s3">'/content/drive/MyDrive/ML - LAB5/voting_complete.csv'    </span><span class="s0"># Change the PATH</span>
+<span class="s1">pd_dataset = pd.read_csv(path_to_dataset)                                   </span><span class="s0"># Open the dataset</span>
+
+<span class="s0"># 2.2 : Display the dataset</span>
+<span class="s1">pd_dataset</span>
+
+<span class="s0"># 3.1 : Define a function for train and test split</span>
+<span class="s2">def </span><span class="s1">train_test_split(pd_data: pd.DataFrame</span><span class="s2">, </span><span class="s1">test_ratio: float = </span><span class="s4">0.2</span><span class="s1">) -&gt; tuple:</span>
+    <span class="s1">pd_dataset = pd_data.copy()                         </span><span class="s0"># Work on a copy of the dataset</span>
+    <span class="s1">pd_dataset = pd_dataset[pd_dataset.columns[</span><span class="s4">1</span><span class="s1">:]]     </span><span class="s0"># Remove the first column (column index)</span>
+    <span class="s1">index = np.arange(len(pd_dataset))                  </span><span class="s0"># Give an array on a given interval</span>
+    <span class="s1">index = np.random.permutation(index)                </span><span class="s0"># Randomly permute a sequence, or return a permuted range</span>
+    <span class="s1">train_ammount = int(len(index)*test_ratio)          </span><span class="s0"># Initialize percentages of dataset to be trained and tested</span>
+    <span class="s1">train_ids = index[train_ammount:]                   </span><span class="s0"># Train on 80% of the dataset</span>
+    <span class="s1">test_ids = index[:train_ammount]                    </span><span class="s0"># Test on 20% of the dataset</span>
+
+    <span class="s1">train_dataset = pd_dataset[pd_dataset.index.isin(train_ids)].reset_index()</span>
+    <span class="s1">test_dataset = pd_dataset[pd_dataset.index.isin(test_ids)].reset_index()</span>
+
+    <span class="s1">train_dataset = train_dataset[train_dataset.columns[</span><span class="s4">1</span><span class="s1">:]]</span>
+    <span class="s1">test_dataset = test_dataset[test_dataset.columns[</span><span class="s4">1</span><span class="s1">:]]</span>
+
+    <span class="s2">return </span><span class="s1">train_dataset[train_dataset.columns[</span><span class="s4">1</span><span class="s1">:]]</span><span class="s2">, </span><span class="s1">train_dataset[train_dataset.columns[</span><span class="s4">0</span><span class="s1">]]</span><span class="s2">, </span><span class="s1">test_dataset[test_dataset.columns[</span><span class="s4">1</span><span class="s1">:]]</span><span class="s2">, </span><span class="s1">test_dataset[test_dataset.columns[</span><span class="s4">0</span><span class="s1">]]</span>
+
+<span class="s1">x_train</span><span class="s2">, </span><span class="s1">y_train</span><span class="s2">, </span><span class="s1">x_test</span><span class="s2">, </span><span class="s1">y_test = train_test_split(pd_dataset)</span>
+
+<span class="s0"># 4 : Data examination</span>
+<span class="s1">x_train</span>
+
+<span class="s0"># Answers:</span>
+<span class="s0"># 1. The performed task is a classification task.</span>
+<span class="s0">#</span>
+<span class="s0"># 2. As we can see when we display the pd_dataset in part 1, there are 435 rows. So, we have 435 samples in the dataset.</span>
+<span class="s0">#</span>
+<span class="s0"># 3. As for the previous question, we see that the pd_dataset contains 435 rows and 18 columns.</span>
+<span class="s0">#    So we have 435*18 features in the dataset. Finally, there are 7830 features in the dataset.</span>
+<span class="s0">#</span>
+<span class="s0"># 4. We have 3 data types in our dataset:</span>
+<span class="s0">#     - y : yes ;</span>
+<span class="s0">#     - n : no ;</span>
+<span class="s0">#     - ? : missing value (unknown).</span>
+<span class="s0">#</span>
+<span class="s0"># 5. Yes, there are missing values in the dataset. These values are represented by the &quot;?&quot; character.</span>
+<span class="s0">#</span>
+<span class="s0"># 6. In the dataset, we have 2 labels:</span>
+<span class="s0">#     - 0 : n;</span>
+<span class="s0">#     - 1 : y.</span>
+
+<span class="s0"># 5 : Data preprocessing</span>
+<span class="s1">X = pd.get_dummies(x_train)</span>
+<span class="s1">print(X)</span>
+
+<span class="s1">y_train = y_train.replace(</span><span class="s3">'republican'</span><span class="s2">, </span><span class="s4">1</span><span class="s1">)</span>
+<span class="s1">y = y_train.replace(</span><span class="s3">'democrat'</span><span class="s2">, </span><span class="s4">0</span><span class="s1">)</span>
+
+<span class="s0"># 6.1 : Creating the model</span>
+<span class="s1">model = Sequential()</span>
+<span class="s1">model.add(Dense(</span><span class="s4">16</span><span class="s2">, </span><span class="s1">input_dim=</span><span class="s4">48</span><span class="s2">, </span><span class="s1">activation=</span><span class="s3">'sigmoid'</span><span class="s1">))</span>
+<span class="s1">model.add(Dense(</span><span class="s4">1</span><span class="s2">, </span><span class="s1">activation=</span><span class="s3">'sigmoid'</span><span class="s1">))</span>
+
+<span class="s0"># 6.2 : Model summary</span>
+<span class="s1">model.summary()</span>
+
+<span class="s0"># 6.3 : Compile the model</span>
+<span class="s1">optimizer = tf.keras.optimizers.SGD(learning_rate=</span><span class="s4">0.5</span><span class="s1">)</span>
+<span class="s1">model.compile(loss=</span><span class="s3">'binary_crossentropy'</span><span class="s2">, </span><span class="s1">optimizer=optimizer</span><span class="s2">, </span><span class="s1">metrics=[</span><span class="s3">'accuracy'</span><span class="s1">])</span>
+
+<span class="s0"># 6.4 : Train the model</span>
+<span class="s1">history = model.fit(X</span><span class="s2">, </span><span class="s1">y</span><span class="s2">, </span><span class="s1">epochs=</span><span class="s4">2000</span><span class="s2">, </span><span class="s1">batch_size=</span><span class="s4">500</span><span class="s2">, </span><span class="s1">verbose=</span><span class="s4">0</span><span class="s1">)</span>
+
+<span class="s0"># 7.1 : First, apply the same preprocessing you did to train set to test set also</span>
+
+<span class="s0"># 7.2 : Evaluate the model, print final accuracy and loss</span>
+<span class="s1">loss</span><span class="s2">, </span><span class="s1">accuracy = model.evaluate(X</span><span class="s2">, </span><span class="s1">y</span><span class="s2">, </span><span class="s1">verbose=</span><span class="s4">0</span><span class="s1">)</span>
+<span class="s1">print(</span><span class="s3">'Accuracy: {:.2f}'</span><span class="s1">.format(accuracy*</span><span class="s4">100</span><span class="s1">))</span>
+<span class="s0"># Accuracy scores: 99.43, 99.71, 100, etc.</span>
+
+<span class="s0"># 7.3 : Plot loss and validation loss depending on the training epochs into one graph.</span>
+<span class="s0"># In another graph, plot accuracy and validation accuracy</span>
+<span class="s1">plt.figure()</span>
+<span class="s1">plt.plot(history.history[</span><span class="s3">'loss'</span><span class="s1">])</span>
+<span class="s1">plt.xlabel(</span><span class="s3">'n epochs'</span><span class="s1">)</span>
+<span class="s1">plt.ylabel(</span><span class="s3">'loss'</span><span class="s1">)</span>
+</pre>
+</body>
+</html>
